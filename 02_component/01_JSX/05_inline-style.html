@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+
+        // 주의할 점 : 합성어는 카멜케이스로 스타일을 정의해야 함.
+        // ex)background-color 를 backgroundColor로 표현
+        // 속성 값은 문자열 혹은 숫자 형태로 작성한다. 객체는 안 된다.
+        
+        const style = {
+            backgroundColor: 'black',
+            color : 'white',
+            cursor: 'pointer',
+            textAlign: 'center'
+        }
+
+        function text (){
+            alert('클릭 테스트');
+        }
+        const element =
+        <>
+            <h1 style={style} onClick={text}> style 객체 만들어서 넣기 </h1>
+            <h3>잘 나오는지 확인</h3>
+        </>
+        ReactDOM.createRoot(document.getElementById("root")).render(element);
+    </script>
+</body>
+</html>

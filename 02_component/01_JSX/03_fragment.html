@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+    /* JSX는 매우 편한 문법이지만 몇 가지 규칙을 지켜야 한다. 
+        동일 레벨의 노드들이 연달아 정의도는 경우 문법 에러 발생
+        → 결론, h1 / h3 등 연달아 쓸 때엔 <></> 로 감싸줘라~ */
+
+        const user = {
+            name : '규남',
+            phone : '010-2484-3157'
+        }
+
+        // 1. 최상위 엘리먼트가 두 개 이상이면 에러 발생
+        // const element = (
+        //     <h1>Hello, {user.name}</h1>
+        //     <h3>전화번호 : {user.phone}</h3>
+        // );
+
+        // 2. <div> 즉 부모 태그로 감싸서 하나의 돔 트리를 생성하면 문제 없다.
+            // 그러나 div라는 의미 없는 공간이 생성된다.
+        // const element = (
+        //     <div>
+        //     <h1>Hello, {user.name}</h1>
+        //     <h3>전화번호 : {user.phone}</h3>
+        //     </div>
+        // );
+
+        // 3. <React.Fragment> 로 감싸게 되면 형식상의 돔트리를 만들어줌. (하지만 길다)
+                // 타임리프에서 th:block 같은 개념
+        // const element = (
+        //     <React.Fragment>            
+        //     <h1>Hello, {user.name}</h1>
+        //     <h3>전화번호 : {user.phone}</h3>
+        //     </React.Fragment>
+        // );
+
+        // 4. React 라이브러리부터 Fragment 객체만 구조분해 할당
+        // 구조분해 할당 : 값을 변수로써 사용하겠다는 축약 구문
+        // const {fragment} = React
+
+        // const element = (
+        //     <fragment>            
+        //     <h1>Hello, {user.name}</h1>
+        //     <h3>전화번호 : {user.phone}</h3>
+        //     </fragment>
+        // );
+
+        // 5. Fragment 쓰기 귀찮은 개발자들이 React.Fragment를 축약한
+        //      <></>으로만 사용할 수 있게 만들어 둠.(이것만 사용할 것)
+        const element = (
+            <>            
+            <h1>Hello, {user.name}</h1>
+            <h3>전화번호 : {user.phone}</h3>
+            </>
+        );
+        ReactDOM.createRoot(document.getElementById('root')).render(element);
+
+    </script>
+</body>
+</html>
