@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+
+        // 최초에 얼러트로 등장
+        // prompt로 넘어오는 값은 문자열이기 때문에 정수로 파싱
+        const answer = parseInt(prompt('프롬프트 창 사용하기 \n1. 재미있다. \n2. 어렵다'));
+            console.log('answer 콘솔 : ', answer);
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+
+        // 1. 렌더링 시 조건 비교 후 조건부 렌더링하기 (조건식 간단할 때 사용)
+        const positive = <h1>1번 재미있다 선택할 경우</h1>
+        const nagative = <h1>2번 어렵다 선택할 경우</h1>
+
+        // root.render(
+        //     (answer === 1) ? positive : nagative
+        // );
+
+        // 2. JSX 내에서 조건부 엘리먼트 생성하기 (특정 상황에 따라 다른 엘리먼트 생성)
+        // 2-1. if 문으로 조건부 생성
+        // let element1;
+        // if(answer === 1) {
+        //     element = <h1>if 조건문 / 1번 재미있다 선택할 경우</h1>
+        // } else {
+        //     element = <h1>if 조건문 / 2번 어렵다 선택할 경우</h1>
+        // }
+
+        // 2-2. 삼항연산자로 조건부 엘리먼트 생성 (const의 장점,
+            //                     삼항 연산자 때문에 많이 사용) 재할당 불가!
+        const element2 = (answer === 1) ? (
+            <h1>삼항 연산자 조건부 1번일 때</h1>
+        ) : (
+            <h1>삼항 연산자 조건부 2번일 때</h1>
+        );
+        root.render(element2);
+
+    </script>
+</body>
+</html>

@@ -12,6 +12,7 @@
     <div id="root"></div>
     <script type="text/babel">
         // 이미 사용자 화면에 보여지는 엘리먼트 수정해보기
+        // 화면에서 초마다 시간이 흘러가는 거!
         const root = ReactDOM.createRoot(document.getElementById('root'));
 
         function tick(){
@@ -24,6 +25,19 @@
             root.render(element);
         }
         setInterval(tick,1000); // 1000 : 1초마다 실행
+
+        /* 1초마다 tick 함수를 호출해서 새로운 엘리먼트를 생성하고
+            rendering 한다.
+            매 초마다 새로운 엘리먼트를 생성해서 다시 렌더링을 하지만,
+            개발자 도구를 켰을 때 바뀌는 부분만 갱신되는 걸 볼 수 있다.
+            
+            리액트 엘리먼트는 실제 DOM과는 달리 메모리상에서 
+            동작하는 가상의 DOM(virtual DOM)이다.
+            
+            가상 DOM은 실제 DOM과 동일한 구조 (DOM Tree)를 가지고 있다.
+            엘리먼트를 새롭게 만들게 되면 render() 호출 시
+            가상 DOM에 새로운 엘리먼트를 생성하고 실제 DOM과 비교 후
+            변경된 곳만 Update 해주게 된다. */
     </script>
 </body>
 </html>
