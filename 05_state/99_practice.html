@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script src="https:unpkg.com/prop-types@15.8.1/prop-types.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+
+        const {useState} = React;
+
+        function Test () {
+            const [color , setColor] = useState('red');
+            console.log('[color , setColor] : ', [color , setColor]);
+
+            const [background , setBackground] = useState('black');
+            console.log('[background , setBackground] : ', [background , setBackground]);
+            
+            const [message,setMessage] = useState('초기 상태');
+            console.log('[message,setMessage] : ', [message,setMessage]);
+
+            const changeMessage = (e) => {
+                setMessage(e.target.value);
+                setBackground('yellow');
+                setColor('green');
+            }
+            console.log('changeMessage : ' , changeMessage);
+
+            return (
+                <>
+                    <h1 style={{color , background}}>내가 입력한 이름은 : {message}</h1>
+                    <input onChange={changeMessage} type="text" value={message}/>
+                </>
+            );
+        }
+        ReactDOM.createRoot(document.getElementById('root'))
+                .render(<Test/>);
+    </script>
+</body>
+</html>

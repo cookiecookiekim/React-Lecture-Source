@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script src="https:unpkg.com/prop-types@15.8.1/prop-types.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+
+        const {useState} = React;
+
+        function Hamsu (){
+
+            const [presentTime , setPresentTime] = useState(false);
+            // const [startTime , setStartTime] = useState(0);
+            // const [stopTime, setStopTime] = useState(0);
+            const [asd,setAsd] = useState(null)
+
+            const countUp = () => {
+                const id = setInterval(() => {
+                            setPresentTime((presentTime) => {return presentTime + 1});
+                            }, 1000);
+
+                setAsd(id);
+            };
+
+            const stop = () => {
+                clearInterval(asd);
+            };
+
+            const 
+            return (
+                <>
+                    <h1>타이머 연습 : {presentTime}</h1>
+                    <button onClick={countUp}>시작</button>
+                    <button onClick={stop}>정지</button>
+                    <button onClick={}>초기화</button>
+                </>
+            );
+        }        
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<Hamsu/>);
+    </script>
+</body>
+</html>
