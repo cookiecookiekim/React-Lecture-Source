@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+
+        /* props(properties의 약자)란?
+            컴포넌트의 속성을 설정할 때 사용하는 요소이다.
+            props 값은 해당 컴포넌트를 사용하는 부모 컴포넌트에서 설정 가능.
+            
+            props는 읽기 전용 객체이기 때문에 값을 수정해선 안 됨.
+            
+            <리액트의 규칙>
+            "모든 React 컴포넌트는 자신의 props를 다룰 때 
+                반드시 순수 함수처럼 동작해야 한다. 
+                
+            <순수 함수란?> (알아만 두면 됨)
+            동일한 입력값에 대해 동일한 결과를 반환하는 것을 순수함수라 함. */
+
+        const name1 = '김규남';
+        const name2 = '임규남';
+
+        function Name(props){ // render에서 name이라는 변수를 받는 용도
+            console.log('props : ',props); // 객체(key,value)로 들어가 있음.
+                                    // [[]] → 읽기 전용(화면 뿌려주는 전용)
+            // 콘솔 찍어보면 props에 키와 벨류로 들어가 있고 value에 접근하려면
+            // props.key 값으로!
+            return <h1>{props.name}님 안녕하세요 (Name function 리턴값) </h1>
+
+        }
+
+        // 기본값 세팅하기.
+        // props.name이 존재하지 않는 경우 기본값을 설정할 수 있다.
+        Name.defaultProps = {
+            name: '기본값'
+        }
+
+        ReactDOM.createRoot(document.getElementById('root'))
+                .render([
+                    <Name name={name1}/>,
+                    <Name name={name2}/>,
+                    <Name name={'김규남 직접입력'}/>,
+                    <Name name={'임규남 직접입력'}/>,
+                    <Name/> // 전달하는 값 없으면 default값이 삽입됨
+                ]);
+                //Name을 렌더하면서 name1이라는 값을 전달
+                // → Name 컴포넌트에 props로 받아준다
+    </script>
+</body>
+</html>

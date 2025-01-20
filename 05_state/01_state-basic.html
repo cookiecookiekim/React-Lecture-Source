@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script src="https:unpkg.com/prop-types@15.8.1/prop-types.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <!-- ☆★☆★☆★☆★ 중요 ☆★☆★☆★☆★☆★ -->
+    <!-- state란?
+        state는 컴포넌트 내부에서 바꿀 수 있는(바뀔 수 있는) 값을 의미 (ex:input)
+        
+        <state vs props 차이 구분하기>
+        props는 컴포넌트가 사용되는 과정에서 부모 컴포넌트가 설정하고 주는
+        읽기 전용의 값이지만, state는 컴포넌트 내부에서 설정되는 값이다. 
+        
+        우리는 state를 관리하며 다양한 작업을 할 수 있다. 
+        
+        리액트는 클래스형 컴포넌트를 사용하면 state를 직접 사용할 수 있다. 
+        하지만 함수형 컴포넌트에서는 직접적으로 state를 사용할 수 없으며
+        useState라는 hooks를 이용해서 할 수 있다. 
+        
+        우선은 state 학습을 위해 클래스형으로 진행.-->
+    <script type="text/babel">
+
+        class Counter extends React.Component{
+
+            // 클래스에 props를 전달받으려면 어떻게 해야할까?
+            /* 클래스형 컴포넌트 생성 시 가장 먼저 호출되는 생성자 함수 */
+            constructor(props){
+                console.log('constructor(props) 생성자 호출됨 : ')
+            /* props는 부모로부터 전달받게 된다. 전달받은 props를
+                부모 클래스의 생성자에게 전달하며 컴포넌트를 생성하게 됨. */
+                super(props);
+
+                /* 생성자 내부에서 관리할 값, 즉 state 사용 방법
+                    1. state는 this를 명시해야 한다.
+                    2. 변수명은 반드시 state여야 한다.
+                    3. state에 저장되는 값의 형태는 반드시 Object 리터럴 형식{} */
+                    this.state = {
+                        number : 0 // 컴포넌트 내부에서 관리할 값 정의
+                    };
+            }
+
+            render(){ // 복습 : 클래스형은 render라는 함수 사용해야함.
+
+                console.log('render함수 호출함');
+                /* state에 저장된 number 꺼내기 */
+                // const number = this.state.number; ↓ 이걸 구조분해 할당 ↓
+                const {number} = this.state;
+            
+            /* 1. 관리하고 있는 state에 변화 주기 
+                state에 객체 형태로 컴포넌트가 관리할 값들이 저장 됐을 때
+                state에 변화를 주고 싶으면 state 객체 프로퍼티에 접근하여
+                직접 수정하거나, state의 setter 메서드를 사용하여 바꿀 수 있음.
+                    
+                2. state에 변화를 줘서 render() 재호출 
+                setState()를 통해 state에 변화를 주면 render() 함수 재호출 됨.
+                그러면 render()가 반환하는 새로운 엘리먼트로 가상 DOM에 전달되고,
+                가상 돔은 실제 돔과 비교 후, 변환된 부분만 다시 그려주게 됨. */
+
+                return( // 복습 : return은 화면에 보여줄 엘리먼트 정의
+                    <>
+                        <h1>현재 number : {number}</h1>
+                        <button onClick={() => this.setState({number : number - 1})}>-1</button>
+                        <button onClick={() => this.setState({number : number + 1})}>+1</button>
+                    </>
+                );
+            }
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<Counter/>);
+    </script>
+</body>
+</html>
