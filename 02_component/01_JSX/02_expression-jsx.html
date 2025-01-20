@@ -13,7 +13,7 @@
     <div id="root"></div>
 
     <script type="text/babel">
-        function nameCard(user){
+        function NameCard(user){
             console.log('전달 받은 user 정보 : ', user);
             return `${user.lastName} ${user.firstName}`;
         }
@@ -25,7 +25,7 @@
                 사용하여 값을 표현할 수 있다. */
         };
 
-        const element = <h1>Hello, {nameCard(user)}</h1>
+        const element = <h1>Hello, {NameCard(user)}</h1>
 
         ReactDOM.createRoot(document.getElementById('root'))
                 .render(element);
