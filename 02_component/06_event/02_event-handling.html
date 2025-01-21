@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script src="https:unpkg.com/prop-types@15.8.1/prop-types.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+
+        class EventComponent extends React.Component{ // 인라인 형식은 복잡하다는 내용
+            state = {
+                inputMessage : ''
+            };
+            constructor(props){
+                super(props);
+            }
+            render(){
+                console.log('props : ' , this.props);
+                return(
+                    <>
+                        <h1>이벤트 핸들링</h1>
+                        <input
+                            type="text"
+                            placeholder='텍스트를 입력해 주세요.'
+                            onChange={
+                                // 초기값이 공백인 inputMessage를 set 함수 통하여 재정의
+                                (e) => {this.setState({inputMessage: e.target.value})
+                                console.log('e : ',e);
+                                    // target은 input 가리킴
+                                }
+                            }
+                            value={this.state.inputMessage}
+                            />
+                        <button
+                            onClick={
+                                () => {
+                                    alert(`${this.state.inputMessage} 지워짐.`);
+                                    console.log('inpuMessage 진짜 사라젔나 : ', this.state.inputMessage);
+                                    this.setState({inputMessage: ''});
+                                }
+                            }
+                        >제출</button>
+                     </>
+                    );
+            }
+        }
+
+
+        ReactDOM.createRoot(document.getElementById('root'))
+                .render(<EventComponent/>);
+    </script>
+</body>
+</html>

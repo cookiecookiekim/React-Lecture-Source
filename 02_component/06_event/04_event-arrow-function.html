@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script src="https:unpkg.com/prop-types@15.8.1/prop-types.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+
+        class EventComponent extends React.Component{ // 일일이 바인딩 안 해도 되는 방법 (화살표 함수)
+            state = {
+                inputMessage : ''
+            };
+ 
+            // 일반적인 함수와 화살표 함수의 가장 큰 차이점은 화살표 함수는 자동으로
+            // this를 바인딩 해준다. 따라서 생성자를 통해 bind 하는 과정을 생략해도
+            // this는 컴포넌트 자기 자신을 가리킨다.
+            constructor(props){
+
+                super(props);
+            }
+
+            // 화살표 함수 쓰면 생성자에서 bind 안 해줘도 알아서 인식.
+            onChangeHandler = (e) => {
+                this.setState({
+                    inputMessage : e.target.value
+                });
+            };
+
+            onClickHandler = () => {
+                alert(`${this.state.inputMessage} 지워짐`);
+                this.setState({
+                    inputMessage:''
+                });
+            }
+
+            render(){
+                console.log('props : ' , this.props);
+
+                return(
+                    <>
+                        <h1>이벤트 핸들링</h1>
+                        <input
+                            type="text"
+                            placeholder='텍스트를 입력해 주세요.'
+                            onChange={this.onChangeHandler}
+                            value={this.state.inputMessage}
+                            />
+                        <button onClick={this.onClickHandler}>제출</button>
+                     </>
+                    );
+            }
+        }
+
+        ReactDOM.createRoot(document.getElementById('root'))
+                .render(<EventComponent/>);
+    </script>
+</body>
+</html>
