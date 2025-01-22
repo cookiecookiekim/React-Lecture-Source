@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script src="https:unpkg.com/prop-types@15.8.1/prop-types.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+    
+    <script type="text/babel">
+
+        const {useState} = React;
+
+        function App () {
+
+            // TodoList 관리
+            const [list , setList] = useState(
+                []
+            );
+
+            // input 텍스트 관리
+            const [text , setText] = useState('');
+
+            const [nextId, setNextId] = useState(1);
+
+            const onChangeHandler = (e) => setText(e.target.value);
+
+            const onClickHandler = () => {
+                const updateList = list.concat({
+                    id: nextId,
+                    value : text
+                });
+                console.log('updateList : ' , updateList);
+                setNextId(nextId + 1);
+                setList(updateList);
+                setText('');
+            }
+
+
+
+            return (
+                <>
+                    <h1>To Do List 연습</h1>
+                    <div>
+                        <input type="checkbox"/>
+                        <ul>{list.map((asd) => {asd.value})}</ul>
+                    </div>
+                    <input
+                        type="text"
+                        value={text}
+                        onChange={onChangeHandler}/>
+                    <button
+                        onClick={onClickHandler}    
+                    >추가하기</button>
+                </>
+            );
+        }
+
+        ReactDOM.createRoot(document.getElementById('root'))
+                .render(<App/>);
+    </script>
+</body>
+</html>
