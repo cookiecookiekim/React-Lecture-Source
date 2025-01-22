@@ -20,9 +20,7 @@
         function App () {
 
             // TodoList 관리
-            const [list , setList] = useState(
-                []
-            );
+            const [list , setList] = useState([]);
 
             // input 텍스트 관리
             const [text , setText] = useState('');
@@ -42,14 +40,20 @@
                 setText('');
             }
 
+            const lineHandler = (e) => {
 
+            }
 
             return (
                 <>
                     <h1>To Do List 연습</h1>
                     <div>
-                        <input type="checkbox"/>
-                        <ul>{list.map((asd) => {asd.value})}</ul>
+                        <ul>{list.map((asd) => {
+                            return(
+                                <li id={nextId} onClick={lineHandler}>
+                                    <input type="checkbox"/>{asd.value}</li>
+                            );
+                        })}</ul>
                     </div>
                     <input
                         type="text"
