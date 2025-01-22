@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script src="https:unpkg.com/prop-types@15.8.1/prop-types.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        // 인풋에 입력 시 li에 추가되고, 더블 클릭 시 삭제하는 거 만들기
+
+        // 1. 상태값 관리를 위함 useState 사용 준비
+        const {useState} = React;
+
+        function App () {
+
+        // 2. 회원 목록 상태
+        // 배열에 객체 형태로 넣어보기
+        const [users, setUsers] = useState([
+            {id: 1, name: '푸바오'},
+            {id: 2, name: '러바오'},
+            {id: 3, name: '아이바오'}
+        ]);
+
+        // 3. Input 텍스트 상태 관리하기
+        const [text, setText] = useState('');
+
+        // 4. id 증가 상태(자동 증가 시키기(key 중복 막기 위해)) 위해 연습
+        //  (지금만 사용) (논외)
+        const [nextId, setNextId] = useState(4); // 위에 id가 3까지 있기 때문에 4부터
+
+            // 5. 함수 작성 setText를 통해 세팅
+            const onChangeHandler = (e) => setText(e.target.value);
+            const onClickHandler = () => {
+            // 클릭 했을 때 기존의 users가 사라지지 않고 아래에 추가되므로 이렇게
+                // concat : 기존의 배열을 바꾸지 않고 합친 결과를 반환
+                const changeUsers = users.concat({
+                    id : nextId, // 4번 부여할 거기 때문에 nextId
+                    name : text  // input에 입력한 값
+                });
+
+                // key 중복 막기 위해 다음 건 더하기 1
+                setNextId(nextId + 1);
+                setUsers(changeUsers); // 새로운 input 입력값으로 변경
+                setText('');            // 추가 되고 input 창 초기화
+            }
+
+            const onDoubleClickHandler = () => {
+                setUsers('');
+            }
+
+            // userList 화면에 뿌리기
+            // 반복적으로 li 만들어서 ul 태그에 전달
+            const userList =          // 변수인 user로 꺼내야 함
+                    users.map(user => <li key={user.id}>{user.name}</li>)
+
+            return(
+                <>
+                    <input
+                        type="text"
+                        value={text}
+                        onChange={onChangeHandler}/>
+                    <button
+                        onClick={onClickHandler}>추가</button>
+                    <ul
+                        onDoubleClick={onDoubleClickHandler}
+                        >
+                        {userList}
+                    </ul>
+                </>
+            );
+        }
+
+        ReactDOM.createRoot(document.getElementById('root'))
+                .render(<App/>);
+    </script>
+</body>
+</html>
