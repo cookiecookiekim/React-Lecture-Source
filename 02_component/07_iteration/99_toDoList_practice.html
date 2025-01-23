@@ -9,6 +9,31 @@
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
     <script src="https:unpkg.com/prop-types@15.8.1/prop-types.js"></script>
+
+    <style>
+        input:checked + label{
+            text-decoration: line-through;
+        }
+        .headerClass{
+            text-align: center;
+            background-color: aqua;
+            height: 100px;
+        }
+        .bodyDivClass{
+            width: 600px;
+            height: 600px;
+            border: 2px solid black;
+            margin: 0 auto;
+        }
+        .footerDivClass{
+            text-align: center;
+            background-color: pink;
+            height: 100px;
+        }
+        .bodyinputClass{
+            margin-left: 850px;
+        }
+    </style>
 </head>
 <body>
     <div id="root"></div>
@@ -17,57 +42,67 @@
 
         const {useState} = React;
 
-        function App () {
+        function Header () {
+            return(
+                <h1 className="headerClass">To Do List 입니다.</h1>
+            );
+        }
 
-            // TodoList 관리
+        function Body () {
+
             const [list , setList] = useState([]);
+            const [text, setText] = useState('');
+            const [liId , setLiId] = useState(1);
 
-            // input 텍스트 관리
-            const [text , setText] = useState('');
+            const onChangeHandler = (e) => {
+                // console.log('e :',e);
+                setText(e.target.value);
+            }
+            console.log('list', list);
 
-            const [nextId, setNextId] = useState(1);
-
-            const onChangeHandler = (e) => setText(e.target.value);
+            const asdasd = list.map(asd => <li key={liId}>
+                <input type="checkbox"/>{asd.name}
+                <button>삭제</button>
+                </li>);
 
             const onClickHandler = () => {
-                const updateList = list.concat({
-                    id: nextId,
-                    value : text
-                });
-                console.log('updateList : ' , updateList);
-                setNextId(nextId + 1);
-                setList(updateList);
+
+                const add = 
+                    {id: liId , name : text}
+                
+                setList([...list,add]);
+                setLiId(liId + 1);
                 setText('');
             }
 
-            const lineHandler = (e) => {
-
-            }
-
-            return (
+            return(
                 <>
-                    <h1>To Do List 연습</h1>
-                    <div>
-                        <ul>{list.map((asd) => {
-                            return(
-                                <li id={nextId} onClick={lineHandler}>
-                                    <input type="checkbox"/>{asd.value}</li>
-                            );
-                        })}</ul>
+                <div className="bodyDivClass">
+                    <ul>{asdasd}</ul>    
+                </div>
+                    <div className="bodyinputClass">
+
+                        <input type="text" value={text} onChange={onChangeHandler}/>
+                        <button onClick={onClickHandler}>제출</button>
+
                     </div>
-                    <input
-                        type="text"
-                        value={text}
-                        onChange={onChangeHandler}/>
-                    <button
-                        onClick={onClickHandler}    
-                    >추가하기</button>
+                </>
+            );
+        }
+        function Footer(){
+            return(
+                <>
+                <div className="footerDivClass">
+                    <h1>Footer 입니다.</h1>
+                </div>
                 </>
             );
         }
 
         ReactDOM.createRoot(document.getElementById('root'))
-                .render(<App/>);
+                .render([<Header/>,
+                        <Body/>,
+                        <Footer/>]);
     </script>
 </body>
 </html>

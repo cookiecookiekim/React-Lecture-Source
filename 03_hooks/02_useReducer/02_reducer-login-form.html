@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script src="https:unpkg.com/prop-types@15.8.1/prop-types.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+
+        const {useReducer} = React;
+
+        function reducer(state , reducer){
+            console.log('state :', state);
+            console.log('reducer :', reducer);
+            // switch
+        }
+
+        function Counter() {
+
+            const[state , dispatch] = useReducer(reducer, {value:''});
+
+            console.log(useReducer(reducer , {value:0}));
+
+            return (
+                <>
+                    <label>이름 : </label>
+                    <input type="text" onChange={(e)=>dispatch({type:'name'})}/><br/>
+                    <label>닉네임 : </label>
+                    <input type="text" onChange={(e)=>dispatch({type:'nickname'})}/><br/>
+
+                    <label>입력한 이름 : {}</label><br/>
+                    <label>입력한 닉네임 : {}</label>
+                </>
+            );
+        }
+
+        ReactDOM.createRoot(document.getElementById('root'))
+            .render(<Counter/>);
+    </script>
+</body>
+</html>

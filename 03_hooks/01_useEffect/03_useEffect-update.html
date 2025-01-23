@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script src="https:unpkg.com/prop-types@15.8.1/prop-types.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+
+        const {useState , useEffect} = React;
+
+        function LoginForm(){
+
+            // const [userId , setUserId] = useState('');
+            // const [userPwd , setUserPwd] = useState('');
+
+            // 위에 걸 한 번에 관리하기.
+            const [form, setForm] = useState({
+                userId : '',
+                userPwd : ''
+            });
+
+            const onChangeHandler = (e) => {
+                setForm({
+                    ...form, // 복사를 떠놓고, 변경값 입히기
+                    [e.target.name] : e.target.value
+                });
+            }
+
+            // ★☆ useEffect를 감지 대상의 값 변화에 따라 동작하게 설정
+            // 아이디가 변경될 때마다 확인하기 ★☆
+            useEffect(() => {
+                console.log('useEffect로 ID 업데이트 감지')
+            }, [form.userId]); // 입력할 때마다 서버에서 가져와서 출력 (로그인 할 때 사용해보기)
+                            // 실시간 관련된 거 출력할 때 용이
+            // useEffect는 마운트시점에 동작하고 또한 원하는 값의 변경 시점에만
+            // 동작 하게 만들 수 있음.
+
+            useEffect(() => {
+                console.log('useEffect로 PWD 업데이트 감지')
+            }, []);
+
+            return(
+                <>
+                    <label>아이디 : </label>
+                    <input type="text" name="userId"
+                        onChange={onChangeHandler}
+                        /><br/>
+                    <label>비밀번호 : </label>
+                    <input type="password" name="userPwd"
+                        onChange={onChangeHandler}
+                        /><br/>
+
+                    <h3>ID : {form.userId}</h3>
+                    <h3>PWD : {form.userPwd}</h3>
+                </>
+            );
+        }
+
+        ReactDOM.createRoot(document.getElementById('root'))
+                .render(<LoginForm/>);
+    </script>
+</body>
+</html>
