@@ -17,27 +17,33 @@
 
         const {useReducer} = React;
 
-        function reducer(state , reducer){
-            console.log('state :', state);
-            console.log('reducer :', reducer);
-            // switch
+        function reducer(state , action){
+            console.log('state:', state);
+            console.log('action :', action);
+            switch(action.type) {
+                case 'name' : return{...state, value1: action.value};
+                case 'nickname' : return{...state, value2: action.value};
+            }
         }
 
         function Counter() {
 
-            const[state , dispatch] = useReducer(reducer, {value:''});
-
-            console.log(useReducer(reducer , {value:0}));
+            const[state , dispatch] = useReducer(reducer, {value1:'', value2:''});
+            console.log('state.value1 : ', state.value1);
+            console.log('state.value2 : ', state.value2);
 
             return (
                 <>
                     <label>이름 : </label>
-                    <input type="text" onChange={(e)=>dispatch({type:'name'})}/><br/>
-                    <label>닉네임 : </label>
-                    <input type="text" onChange={(e)=>dispatch({type:'nickname'})}/><br/>
+                    <input type="text" value={state.value1}
+                           onChange={(e)=>dispatch({type:'name', value: e.target.value})}/><br/>
 
-                    <label>입력한 이름 : {}</label><br/>
-                    <label>입력한 닉네임 : {}</label>
+                    <label>닉네임 : </label>
+                    <input type="text" value={state.value2}
+                           onChange={(e)=>dispatch({type:'nickname', value: e.target.value})}/><br/>
+
+                    <label>입력한 이름 : {state.value1}</label><br/>
+                    <label>입력한 닉네임 : {state.value2}</label>
                 </>
             );
         }

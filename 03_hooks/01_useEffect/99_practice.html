@@ -20,19 +20,31 @@
         function App(){
 
             const [time , setTime] = useState(0);
-            
-
+        
                 const aaa = prompt('값을 입력해 주세요');
-                console.log('aaa : ', aaa);
+                
+                console.log('최초 입력 값 aaa : ', aaa);
+                const promptTime = Date.now();
+                console.log('promptTime : ',Date.now())
 
                 const onKeyPressHandler = (e) => {
-                if(e.key === 'Enter'){console.log('e.key 눌림', e.key);}
+                if(e.key === 'Enter')
+                    {console.log('e.key 눌림', e.key);} 
+                if(aaa === e.target.value)
+                    {alert(logic())}
+            }
+
+            function logic () {
+                const enterTime = Date.now();
+                console.log('enterTime', enterTime);
+                // setTime(promptTime);
+                return `${enterTime - promptTime}(ms)`;
             }
 
             return(
                 <>
-                <h1>{aaa}</h1>
-                <input type="text" onKeyPress={onKeyPressHandler}/>
+                    <h1>{aaa}</h1>
+                    <input type="text" onKeyPress={onKeyPressHandler}/>
                 </>
             );
         }
