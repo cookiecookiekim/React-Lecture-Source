@@ -45,7 +45,7 @@
 
         // 외부 함수에서 컴포넌트의 state를 action(주문)에 따라 관리해보기
          // 앞글자 일부러 소문자로 → 컴포넌트 아님.
-        function reducer(state,action){ // 스태이트 , 주문 전달 받음
+        function reducer123(state,action){ // 스태이트 , 주문 전달 받음
             console.log('버튼 눌렀을 때 디스패치가 reducer 함수 호출')
             console.log('state : ', state);
             console.log('action : ' , action);
@@ -63,9 +63,9 @@
         function Counter() {
             // reducer는 2가지의 인자 보유
             // 1. reducer 함수(외부 함수) / 2. 관리할 상태(state)
-            console.log(useReducer(reducer , {value:0}));
+            console.log(useReducer(reducer123 , {value:0}));
 
-            const [state, dispatch] = useReducer(reducer, {value:0});
+            const [state, dispatch] = useReducer(reducer123, {value:0});
 
             // useReducer의 목적으로 컴포넌트는 더이상 스스로 Set하지 않게
             // 상태 관리에 대한 부담감을 덜어주는 것이다.

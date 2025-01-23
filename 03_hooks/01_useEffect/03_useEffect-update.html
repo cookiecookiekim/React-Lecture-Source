@@ -32,6 +32,7 @@
                     ...form, // 복사를 떠놓고, 변경값 입히기
                     [e.target.name] : e.target.value
                 });
+                console.log('[e.target.name] : ', e.target.name);
             }
 
             // ★☆ useEffect를 감지 대상의 값 변화에 따라 동작하게 설정
