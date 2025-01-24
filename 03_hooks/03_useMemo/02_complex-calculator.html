@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script src="https:unpkg.com/prop-types@15.8.1/prop-types.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+
+        // 메모 : 말 그대로 메모 적고 나중에 뭘 할 때 메모장으로 명령 
+        /* 02. 계산기보다 성능 좋은 버전? */
+
+        const {useState} = React;
+
+        // 느린 계산기 : 아래의 hardNumber를 전달해줌, num으로 받음
+        function hardCalculator (num) { // 계산을 위한 외부 함수
+            console.log('오래 걸리는 계산기 호출 num : ', num);
+
+            for(let i = 0; i < 99; i++){
+            }
+            return num + 10000;
+        }
+
+        // 시간이 오래 걸리지 않는 계산기
+        // 느린 계산기도 같이 호출됨
+        // 결국 느린 계산기나 이거나 똑같다는 말.
+        function easyCalculator (num) {
+            console.log('시간이 걸리지 않는 계산기 호출 num : ', num);
+            return num + 10000;
+        }
+
+
+        function App (){
+            const [hardNumber , setHardNumber] = useState(0);
+            const [easyNumber , setEasyNumber] = useState(0);
+
+            const hardSum = hardCalculator(hardNumber);
+            /*
+                시간이 얼마 걸리지 않는 연산을 수행해서 state를 변경할 때도
+                다시 화면을 리렌더링 하기위해 해당 App 컴포넌트를 다시 실행하기
+                때문에 지역변수 초기화가 update시 마다 이루어지게 됨.
+                따라서 우리가 쉬운 계산기를 update 하더라도 hardCalculator가
+                같이 수행되게 된다.
+            */
+            const easySum = easyCalculator(easyNumber);
+
+            return(
+                <>
+                    <h1>시간이 오래 걸리는 계산기</h1>
+                    <input
+                        type="number" onChange={(e)=>setHardNumber(e.target.value)}
+                        value={hardNumber}/>
+                    <span>+ 10000 = {hardSum}</span>
+
+                    <h1>시간이 오래 걸리지 않는 계산기</h1>
+                    <input
+                        type="number" onChange={(e)=>setEasyNumber(e.target.value)}
+                        value={easyNumber}/>
+                    <span>+ 10000 = {easySum}</span>
+                </>
+            );
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+    </script>
+</body>
+</html>

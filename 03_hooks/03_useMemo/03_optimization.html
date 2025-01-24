@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script src="https:unpkg.com/prop-types@15.8.1/prop-types.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+
+        // 메모 : 말 그대로 메모 적고 나중에 뭘 할 때 메모장으로 명령 
+        /* 03. useMemo를 이용하여 01,02 개선 */
+
+        const {useState , useMemo} = React;
+        console.log('useMemo : ', useMemo);
+
+        // 느린 계산기 : 아래의 hardNumber를 전달해줌, num으로 받음
+        function hardCalculator (num) { // 계산을 위한 외부 함수
+            console.log('오래 걸리는 계산기 호출 num : ', num);
+
+            for(let i = 0; i < 99; i++){
+            }
+            return num + 10000;
+        }
+
+        // 시간이 오래 걸리지 않는 계산기
+        // 느린 계산기도 같이 호출됨
+        // 결국 느린 계산기나 이거나 똑같다는 말.
+        function easyCalculator (num) {
+            console.log('시간이 걸리지 않는 계산기 호출 num : ', num);
+            return num + 10000;
+        }
+
+
+        function App (){
+            const [hardNumber , setHardNumber] = useState(0);
+            const [easyNumber , setEasyNumber] = useState(0);
+
+            const hardSum = hardCalculator(hardNumber);
+            const easySum = easyCalculator(easyNumber);
+
+            return(
+                <>
+                    <h1>시간이 오래 걸리는 계산기</h1>
+                    <input
+                        type="number" onChange={(e)=>setHardNumber(e.target.value)}
+                        value={hardNumber}/>
+                    <span>+ 10000 = {hardSum}</span>
+
+                    <h1>시간이 오래 걸리지 않는 계산기</h1>
+                    <input
+                        type="number" onChange={(e)=>setEasyNumber(e.target.value)}
+                        value={easyNumber}/>
+                    <span>+ 10000 = {easySum}</span>
+                </>
+            );
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+    </script>
+</body>
+</html>
