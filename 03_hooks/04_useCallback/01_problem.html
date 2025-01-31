@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script src="https:unpkg.com/prop-types@15.8.1/prop-types.js"></script>
+</head>
+<body>
+    <!-- 25-01-31, 2교시 -->
+    <div id="root"></div>
+    <script type="text/babel">
+
+        const {useState, useEffect} = React;
+
+        function App(){
+
+            // 컴포넌트가 관리할 상태 2가지 설정
+            const [number , setNumber] = useState(0);
+            const [toggle, setToggle] = useState(false); // 버튼용 
+            console.log('toggle : ', toggle, 'setToggle : ', setToggle);
+
+            const printNumber = () => {
+                console.log('현재 number state : ' , number);
+            }
+
+            // 랜더링(업데이트 시) 이후 시점에 동작
+            /* number or toggle state가 변경 될때마다 print 함수가
+            재할당 되어 로그가 계속 발생하고 있음.
+               매번 함수가 생성되어 반환되고, useEffect에서는 해당
+            지역 변수에 변화가 있다고 인지하게 됨. */
+            useEffect(()=>{
+                console.log('useEffect - printNumber 값 변화 인지됨...')
+            }, [printNumber]);
+
+            return(
+                <>
+                    {/* jsx 문법 내 주석 표기법
+                        boolean 타입의 값은 문자열로 변경해야 화면상에
+                        JSX 문법으로 노출된다. */}
+                    <input
+                        type="number"
+                        value={number}
+                        onChange={e => setNumber(e.target.value)}/>
+                    <button
+                        onClick={() => setToggle(!toggle)} // 클릭 시 값 역전 
+                    >{String(toggle)}</button> {/* boolean을 String으로 */}
+                    <br/>
+                    <button onClick={printNumber}>PrintNumberState</button>
+                </>
+            );
+        }
+
+        ReactDOM.createRoot(document.getElementById('root'))
+        .render(<App/>);
+    </script>
+</body>
+</html>
