@@ -11,7 +11,7 @@
     <script src="https:unpkg.com/prop-types@15.8.1/prop-types.js"></script>
 </head>
 <body>
-    <!-- 25-01-31, 2교시 -->
+    <!-- 25-01-31, 3교시 컴포넌트 합치기 (부모 변경 시, 자식도 변경되는 거) -->
     <div id="root"></div>
     <script type="text/babel">
 
@@ -22,6 +22,23 @@
             const [size , setSize] = useState(200);
             const [isDark , setIsDark] = useState(false);
 
+            // 자식 컴포넌트에 전달해줄 값 / 스타일 정의
+            // const squareStyle = {
+            //     backgroundColor : 'red',
+            //     width: `${size}px`,
+            //     height: `${size}px`
+            // }
+
+            // 부모 바뀔때마다 자식이 바뀌고 연관없는 isDark도 바뀜, 안 바뀌게 막기
+            const squareStyle = useCallback(() => {
+                // squareStyle 함수 호출 시, return할 객체 정의
+                return{
+                    backgroundColor : 'red',
+                    width: `${size}px`,
+                    height: `${size}px`
+                };
+            },[size]); // size가 변할 때 만 호출되도록 설정
+
             return(
                 <>
                     <div style={{backgroundColor : isDark ? 'black' : 'white'}}>
@@ -31,10 +48,31 @@
                             min="100"
                             max="300"/>
                         <button
-                            onClick={() => setIsDark(!isDark)}>
-                            {String(isDark)}
+                            onClick={() => setIsDark(!isDark)}>{isDark.toString()}
                         </button>
+                        <Square squareStyle={squareStyle}/>
                     </div>
+                </>
+            );
+        }
+
+        // 함수형 컴포넌트 생성
+        function Square({squareStyle}) {
+            // console.log('squareStyle : ' ,squareStyle); // 부모가 전달한 값
+
+            const [style , setStyle] = useState({});
+            console.log('자식 업데이트 확인용 구문');
+
+            /* 부모인 APP 컴포넌트가 업데이트 되어 자식인 Square도 리렌더링 될 때,
+                부모가 주는 props에 변화가 생길 때 자식도 함께 리렌더링 된다. */
+            useEffect(()=>{
+                console.log('useEffect : style 변경');
+                setStyle(squareStyle);
+            },[squareStyle]);
+
+            return(
+                <>
+                    <div style={style}></div>
                 </>
             );
         }
