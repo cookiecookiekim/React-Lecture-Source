@@ -9,9 +9,7 @@
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https:unpkg.com/prop-types@15.8.1/prop-types.js"></script>
 
-    <!-- 노션 mapper에서 복사해옴
-     
-        useContext 사용하기 전에, 더러운 코드 예시 (props를 여러 컴포넌트에서 돌려 씀)-->
+    <!-- 01_props-drilling 해결을 위한 useContext 사용 (01_props 복붙해옴) -->
     <style>
         .page {
             width: 100%;
@@ -47,24 +45,66 @@
     </style>
 </head>
 <body>
+    <!-- context는 React 컴포넌트의 트리 안에서 전역적으로 데이터를
+         공유할 수 있도록 고안된 방법이다.
+        트리 구조가 복잡해 질수록 하위 컴포넌트로 props를 전달하기 위해
+        drilling이 발생되고 유지보수성의 악화와 생산성 저하로 이루어질 수 있음. 
+        
+        따라서 context(컨테이너의 개념)를 사용하게되면 하위 컴포넌트에게
+        props를 전달하지 않아도 되고, 중앙에서 제어함으로써 유지보수성이 향상됨. -->
     <div id="root"></div>
     <script type="text/babel">
 
-        const {useState} = React;
+        // useContext를 사용하기 위해서 생성을 위한 createContext도 필요하다.
+        const {useState, useContext, createContext} = React;
 
-        function Page ({isDark , setIsDark}) {
-            console.log('isDark : ' , isDark);
-            console.log('setIsDark : ' , setIsDark);
+        // console.log('useContext : ',useContext);
+        // console.log('createContext : ',createContext);
+
+        /* context 객체를 create로 생성하게 되고, defaultValue가
+            없는 경우에는 null로 설정할 수 있다.
+            context 객체를 구독하고 있는 컴포넌트를 렌더링할 때 
+            React는 트리 상위에서 가장 가까이 있는 Provider로 부터
+            현재 값을 읽어 들인다. 이때 적절한 provider를 찾이 못한 경우
+            사용하는 값이 defaultValue이다. */
+
+        const DarkModeContext = createContext(null);
+
+        function App () {
+
+            const [isDark , setIsDark] = useState(false);
+
+            return(
+                /* Provider란?
+                    value라고 하는 프로퍼티를 이용해서 하위 컴포넌트에게
+                    값을 전달(제공)하는 역할.
+                    이 때 값을 전달받을 수 있는 컴포넌트 수에는 제한이 없다.
+                    해당 값을 사용하고 싶은 컴포넌트는 Context의 이름으로부터
+                    useContext를 사용하여 필요한 순간 가져다 쓸 수 있다. */
+                <DarkModeContext.Provider value={{isDark, setIsDark}}>
+                    <Page/>
+                </DarkModeContext.Provider>
+            );
+        }
+
+        function Page () {
+            // console.log('isDark : ' , isDark);
+            // console.log('setIsDark : ' , setIsDark); 이거 주석 안 하면 에러
             return (
                 <div className="page">
-                    <Header isDark={isDark} />
-                    <Content isDark={isDark} />
-                    <Footer isDark={isDark} setIsDark={setIsDark} />
+                    <Header/>
+                    <Content/>
+                    <Footer/>
                 </div>
             );
         }
 
-        function Header ({isDark}) {
+        function Header () {
+
+            const context = useContext(DarkModeContext);
+            console.log('context : ' , context);
+            const {isDark} = context;
+
             return(
                 <header
                     className="header"
@@ -75,7 +115,11 @@
                 </header>
             );
         }
-        function Content ({isDark}) {
+        function Content () {
+
+            const context = useContext(DarkModeContext);
+            const {isDark} = context;
+
             return(
                 <>
                     <div
@@ -87,7 +131,10 @@
                 </>
             );
         }
-        function Footer ({isDark , setIsDark}) {
+        function Footer () {
+
+            const context = useContext(DarkModeContext);
+            const {isDark , setIsDark} = context;
 
             // 부모로부터 전달받은 setter함수
             const lightButtonHandler = () => {setIsDark(!isDark)}
@@ -107,15 +154,6 @@
                 <h3>하이미디어 저작권. 주소 : 신촌 하이미디어 아카데미 7층</h3>
                 </footer>
                 </>
-            );
-        }
-
-        function App () {
-
-            const [isDark , setIsDark] = useState(false);
-
-            return(
-                <Page isDark={isDark} setIsDark={setIsDark}/>
             );
         }
 
