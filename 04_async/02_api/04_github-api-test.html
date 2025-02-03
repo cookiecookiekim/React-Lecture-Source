@@ -49,15 +49,32 @@
                 // 버튼 클릭 시 api로부터 이모지 데이터를 조회한다.
 
                 // 1. fetch
-                fetch('https://api.github.com/emojis') // promise 타입
-                    .then(res => res.json())
-                    .then(data => {console.log('data : ', data)
-                        setImgUrl(data[imageName]);
-                    });
+                // fetch('https://api.github.com/emojis') // promise 타입
+                //     .then(res => res.json())
+                //     .then(data => {console.log('data : ', data)
+                //         setImgUrl(data[imageName]);
+                //     });
 
                 // 2. axios
                 // axios.get('https://api.github.com/emojis')
-                //     .then(res => console.log('res: ', res));
+                //     .then(res => { console.log('res : ', res)
+                //         setImgUrl(res.data[imageName])})
+
+                // 3. sync - await
+                callAPI();
+
+            }
+
+            async function callAPI () {
+                const promise = fetch('https://api.github.com/emojis')
+                console.log('promise : ', promise);
+
+                const response = await promise
+                console.log('response : ' , response);
+                const json = await response.json();
+                console.log('json : ' , json);
+                return(setImgUrl(json[imageName]));
+
             }
 
             return(
