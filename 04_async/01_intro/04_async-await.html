@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /* 조금 더 쉽게 사용하기 위해 promise 객체의 then 절이 아닌,
+            async/await 문법이 있다. */
+        function increase (number) {
+            const promise = new Promise((resolve,reject) => {
+                setTimeout(()=>{
+                    const result = number + 10;
+
+                    if (result > 50){
+                        const error = new Error("숫자가 50을 초과했습니다.");
+                        return reject(error);
+                    }
+
+                    resolve(result);
+                }, 1000);
+            });
+
+            return promise;
+        }
+
+        /* await 기능 
+            1. await가 붙은 함수의 결과인 promise에 담긴 resolve 결과를 반환 
+            2. await가 붙은 비동기 처리들은 동기식으로 동작 */
+        async function run (){ // 앞에 async 붙여야 await 사용 가능
+            try{ // 위에 비동기 함수를 호출 '시도'
+                let result = await increase(0);
+                console.log('첫 번째 result : ', result); // promise 객체가 아닌 10 출력
+
+                result = await increase(result);
+                console.log('두 번째 result : ', result);
+
+                result = await increase(result);
+                console.log('세 번째 result : ', result);
+
+                result = await increase(result);
+                console.log('네 번째 result : ', result);
+
+                result = await increase(result);
+                console.log('다섯 번째 result : ', result);
+
+                result = await increase(result);
+                console.log('여섯 번째 result : ', result);
+            } catch(e){
+                console.log('e : ', e , ' 발생 ');
+            }
+        }
+
+        run();
+    </script>
+</body>
+</html>

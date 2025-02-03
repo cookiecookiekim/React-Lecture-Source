@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 02 콜백 지옥 해결 법. -->
+    <script>
+        /* promise는 콜백지옥과 같은ㄴ 코드를 만들지 않기 위해 
+            (비동기 통신간에 순서를 정하기 쉽게) 하는 방법으로써
+            ES6 버전에서 등장하였다. */
+
+        function increase (number) { // 콜백지옥 만들지 않기 위해, 두번 째 인자 callback 받지 않음
+
+            /* promise 객체를 만드는 이유
+                1. 비동기 처리 함수를 실행 시 성공과 실패에 대한 처리를
+                    용이하게 resolve 및 reject를 제공한다.
+                2. promise 객체가 제공하는 메소드를 사용하기 위함  */
+            const promise = new Promise((resolve,reject) => {
+                setTimeout(()=>{
+                    const result = number + 10;
+
+                    // 실패시 사용하는 reject
+                    if (result > 50){
+                        const error = new Error("숫자가 50을 초과했습니다.");
+                        // 비동기 처리가 실패했을 때 사용하는 reject (거절)
+                        return reject(error);
+                    }
+
+                    // 성공시에 사용하는 resolve(해소, 성공)
+                    resolve(result);
+                }, 1000);
+            });
+            
+            return promise;
+        }
+
+        /* increase 함수 호출 후에는 promise 객체가 return 된다.
+            이 promise는 resolve 함수에 던져진 인수를 기억하며 
+            promise를 통해 then 함수를 호출하고 던져지는 콜백함수의
+            인수로 기억했던 resolve 함수의 인수를 넣어준다. */
+
+        console.log(increase(0));
+
+        increase(0)
+            .then(number => {
+                // promise 객체 내부의 resolve가 호출되고,
+                // 결과 담기고 난 뒤 then이 실행되는 시점.
+                console.log('number : ', number); // 10 
+                return increase(number);
+            })
+            .then(number => {
+                console.log('number : ' , number); // 20
+                return increase(number);
+            })
+            .then(number => {
+                console.log('number : ' , number); // 30
+                return increase(number);
+            })
+            .then(number => {
+                console.log('number : ' , number); // 40
+                return increase(number);
+            })
+            .then(number => {
+                console.log('number : ' , number); // 50
+                return increase(number);
+            })
+            .catch(e => { // e 객체 전달 받음 (위에 정의한 에러 메시지)
+                // reject에 들어간 에러 객체를 콜백함수의 인수로 넣어줌.
+                console.log('e :',e ,'발생!'); // 50 초과되어 에러
+            })
+            .finally(() => {
+                console.log('finally 블럭 생성');
+            });
+    </script>
+</body>
+</html>

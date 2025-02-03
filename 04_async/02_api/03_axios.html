@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https:unpkg.com/prop-types@15.8.1/prop-types.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+
+        /* axios는 이미 데이터 변환처리를 해서 전달하기 때문에 
+            .json() 메서드를 호출하지 않아도 된다는 장점이 있다. 
+            기본 제공하는 기능이 아니기 때문에 CDN 혹은 install 과정을 통해 
+            사용하는 과정이 필요하며, fetch api는 기본 내장.
+        
+            → axios 사용하기 위해 unpkg CDN 사용하기: axios.cdn 임포트 받아야 함. */
+        function callAPI() {
+            axios.get('https://jsonplaceholder.typicode.com/users')
+                .then(res => console.log('res.data : ', res.data))
+                .catch(e => console.log('e : ', e)); // catch도 제공
+        }
+
+        function App(){
+
+            const onClickHandler = () => {
+                callAPI();
+            }
+            return(
+                    <button onClick={onClickHandler}>API 요청</button>
+            );
+        }
+
+        ReactDOM.createRoot(document.getElementById('root'))
+            .render(<App/>);
+    </script>
+</body>
+</html>
