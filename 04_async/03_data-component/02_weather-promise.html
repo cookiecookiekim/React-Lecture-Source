@@ -40,10 +40,10 @@
                 new Promise((resolve,reject)=>{
                     // API 사용하기 위해, 위도와 경도 추출하기
                     navigator.geolocation.getCurrentPosition((curruntPosition)=>{// 최상위 window 객체가 지원하는 navigator 이용
-                        // console.log('curruntPosition : ', curruntPosition);
-                        // console.log('curruntPosition.coords : ', curruntPosition.coords);
-                        // console.log('curruntPosition.coords.latitude : ', curruntPosition.coords.latitude);
-                        // console.log('curruntPosition.coords.longitude : ', curruntPosition.coords.longitude);
+                        console.log('curruntPosition : ', curruntPosition);
+                        console.log('curruntPosition.coords : ', curruntPosition.coords);
+                        console.log('curruntPosition.coords.latitude : ', curruntPosition.coords.latitude);
+                        console.log('curruntPosition.coords.longitude : ', curruntPosition.coords.longitude);
 
                         setPosition({
                             longitude : curruntPosition.coords.longitude,

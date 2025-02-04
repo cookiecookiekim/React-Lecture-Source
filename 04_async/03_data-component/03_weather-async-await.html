@@ -36,6 +36,8 @@
             const [weather , setWeather] = useState({});
             const [wind, setWind] = useState({});
 
+            const [img , setImg] = useState('');
+
             // 현재 위치 정보를 반환하는 promise 함수
             function getPosition(){
                 return(
@@ -69,9 +71,33 @@
                     setCity(result.name);
                     setWeather(result.weather[0]);
                     setWind(result.wind);
+                    image(result.weather[0]);
+                    console.log('result.weather[0] : ', result.weather[0])
                 }
                 setWeatherState();
             },[]);
+
+            // 1. fetch 방법으로
+            // function image(weather){
+            //     console.log('weather : ' , weather);
+            //     fetch('https://api.github.com/emojis')
+            //         .then(res=>res.json())
+            //         .then(data => {console.log('data.sunny : ' , data.sunny)
+            //             setImg(data.sunny);
+            //         })
+            // }
+
+            // 2. async - await 방법으로
+            async function image(weather){
+                const promise = fetch('https://api.github.com/emojis');
+                console.log('promise : ', promise);
+                const result = await promise;
+                console.log('result : ', result);
+
+                const json = await result.json();
+                console.log('json : ', json);
+                setImg(json.sunny);
+            }
 
             return(
                 <div>
@@ -80,7 +106,7 @@
                     <h4>현재 위치 도시 : {city}</h4>    
                     <h4>날씨 : {weather.main} 날씨 설명 : {weather.description}</h4>
                     <h4>풍향 : {wind.deg} 풍속 : {wind.speed}</h4>
-                    <div>{}</div>
+                    {weather.main == "Clear" ? <img style={{height:'300px', width:'300px'}} src={img}/> : <h1>검색 결과 없음</h1>}
                 </div>
             );
         }
