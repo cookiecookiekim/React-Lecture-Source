@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https:unpkg.com/prop-types@15.8.1/prop-types.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    .user{}
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+
+        const {useState , useEffect} = React;
+
+        function App (){
+
+            return(
+                <>
+                    <Title/>
+                    <UserList/>
+                </>
+            );
+        }
+
+        function Title () {
+            return(<h1>회원 목록</h1>);
+        }
+
+        function UserList () {
+            // https://jsonplaceholder.typicode.com/users 사용할 건데 배열 형태로 담겨 있음
+            const [users, setUsers] = useState([]); // 빈 배열로 초기값 세팅
+
+            useEffect(()=>{
+                fetch('https://jsonplaceholder.typicode.com/users')
+                     .then(res => res.json())
+                     .then(data => console.log('data : ', data))
+                     .then(data => setUsers([users]));
+
+            },[]);
+
+            return(
+                <>
+                    <div>
+                        {users.map(user => <User user={user}/>)}
+                    </div>
+                </>
+            );
+        }
+
+        function User ({user}) { // user를 전달하니 구조분해 할당으로 받기
+            return (
+                <>
+                    <div className='user'>
+                        <h4>유저 이름</h4>
+                        <p>
+                            id : {}<br/>
+                            email : {}<br/>
+                            phone : {}<br/>
+                        </p>
+                    </div>
+                </>
+            );
+        }
+
+        ReactDOM.createRoot(document.getElementById('root'))
+                .render(<App/>);
+    </script>
+</body>
+</html>
