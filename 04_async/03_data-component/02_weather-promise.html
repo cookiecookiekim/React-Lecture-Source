@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https:unpkg.com/prop-types@15.8.1/prop-types.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+
+        const {useEffect , useState} = React;
+
+        function App (){
+
+            const [] = useState('');
+
+            const API_KEY = '94698542b1bc785d175b7eaa5a72bf6e';
+            const add = 'https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}'
+
+            return(
+                <>
+                    <h1>오늘의 신촌 날씨</h1>
+                    <Weather/>
+                </>
+            );
+        }
+
+        function Weather(){
+
+             // 키로 관리할 거기 때문에 객체 형태로 초기값 세팅
+            const [position , setPosition] = useState({});
+            const [city , setCity] = useState('');
+            const [weather , setWeather] = useState({});
+            const [wind, setWind] = useState({});
+
+            useEffect(()=>{
+                new Promise((resolve,reject)=>{
+                    // API 사용하기 위해, 위도와 경도 추출하기
+                    navigator.geolocation.getCurrentPosition((curruntPosition)=>{// 최상위 window 객체가 지원하는 navigator 이용
+                        console.log('curruntPosition : ', curruntPosition);
+                        console.log('curruntPosition.coords : ', curruntPosition.coords);
+                        console.log('curruntPosition.coords.latitude : ', curruntPosition.coords.latitude);
+                        console.log('curruntPosition.coords.longitude : ', curruntPosition.coords.longitude);
+
+                        setPosition({
+                            longitude : curruntPosition.coords.longitude,
+                            latitude : curruntPosition.coords.latitude
+                        })
+                        // 값 가져 오는 거 성공했다는 가정
+                        resolve(curruntPosition.coords);
+                        console.log(resolve);
+                    }) 
+                },[]);
+                fetch('https://api.openweathermap.org/data/2.5/weather?lat={latitude}&lon={longitude}&appid={94698542b1bc785d175b7eaa5a72bf6e}')
+                .then(res => res.json())
+                .then(data => console.log('data : ', data));
+            },[]);
+
+            return(
+                <div>
+                    <h3>날씨</h3>
+                    <h4>경도 : {} 위도 : {}</h4>
+                    <h4>현재 위치 도시 : {}</h4>    
+                    <h4>날씨 : {} 날씨 설명 : {}</h4>
+                    <h4>풍향 : {} 풍속 : {}</h4>
+                </div>
+            );
+        }
+
+        ReactDOM.createRoot(document.getElementById('root'))
+                .render(<App/>);
+    </script>
+</body>
+</html>

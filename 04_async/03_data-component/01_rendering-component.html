@@ -8,9 +8,17 @@
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https:unpkg.com/prop-types@15.8.1/prop-types.js"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
-    .user{}
+    <style>
+        .user{
+            background-color: aqua;
+            border: 1px solid black;
+            width: 300px;
+            display: inline-block;
+            margin: 10px;
+        }
+    </style>
+
 </head>
 <body>
     <div id="root"></div>
@@ -39,15 +47,17 @@
             useEffect(()=>{
                 fetch('https://jsonplaceholder.typicode.com/users')
                      .then(res => res.json())
-                     .then(data => console.log('data : ', data))
-                     .then(data => setUsers([users]));
-
+                     .then(data => {console.log('data : ', data)
+                        ,setUsers(data);
+                     });
             },[]);
+                // useEffect 두 번째 인자인 의존성 배열을 빈 배열로 둠으로써 
+                // 마운트 시점에만 동작하도록 만듦(★중요★)
 
             return(
                 <>
                     <div>
-                        {users.map(user => <User user={user}/>)}
+                        {users.map(user => <User key={user.id} user={user}/>)} {/* User에 user 전달 */}
                     </div>
                 </>
             );
@@ -57,11 +67,11 @@
             return (
                 <>
                     <div className='user'>
-                        <h4>유저 이름</h4>
+                        <h4>{user.name}</h4>
                         <p>
-                            id : {}<br/>
-                            email : {}<br/>
-                            phone : {}<br/>
+                            id : {user.id}<br/>
+                            email : {user.email}<br/>
+                            phone : {user.phone}<br/>
                         </p>
                     </div>
                 </>
