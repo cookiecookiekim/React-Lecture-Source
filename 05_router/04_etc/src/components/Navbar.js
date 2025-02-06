@@ -30,6 +30,7 @@ function Navbar(){
                 <li><NavLink to='/' style={({isActive})=> isActive ? activeStyle : undefined}>메인</NavLink></li>
                 <li><NavLink to='menu' style={({isActive})=> isActive ? activeStyle : undefined}>메뉴</NavLink></li>
                 <li><NavLink to='about' style={({isActive})=> isActive ? activeStyle : undefined}>소개</NavLink></li>
+                <li><NavLink to='mypage' style={({isActive})=> isActive ? activeStyle : undefined}>마이페이지</NavLink></li>
             </ul>
         </div>
     );
