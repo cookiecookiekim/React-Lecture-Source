@@ -2,6 +2,7 @@ import itemStyle from './MenuItem.module.css'
 import {NavLink} from 'react-router-dom';
 
 function MenuItem({menu}){
+    // console.log('MenuItem의 menu : ', menu);
     return(
         <NavLink to={`/menu/${menu.menuCode}`}>
         <div className={itemStyle.MenuItem}> 
