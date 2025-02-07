@@ -40,7 +40,7 @@
 
                 switch(type){
                     case 'INCREMENT' : return {count : state.count + payload.incrementValue};
-                    case 'DECREMENT' : return {count : state.cout + payload.decrementValue};
+                    case 'DECREMENT' : return {count : state.count - payload.decrementValue};
                     default : return state;
                 }
             },
@@ -71,13 +71,13 @@
             /* 크롬 확장 프로그램 (redux_devtools) 설치 후 적용을 위한 구문 */
             window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
         );
+            
 
         function App (){
 
             /* useSelect를 출력했을 때 root가 관리하는 reducer들이 들어있고,
                 각각의 state 가 value로 들어있따. */
             console.log('App의 useSelector(state => state) : ' , useSelector(state => state));
-
             const dispatch = useDispatch();
 
             // useSelector에서 초기값들 구조분해 할당으로 꺼내서 담아주기.

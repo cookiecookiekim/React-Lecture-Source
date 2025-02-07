@@ -80,7 +80,7 @@
                 <>
                     <h1>Count : </h1>
                     <button onClick={increaseCount}>+ 1</button>
-                    <button onclick={decreaseCount}>- 1</button>
+                    <button onClick={decreaseCount}>- 1</button>
                 </>
             );
         }
@@ -100,7 +100,7 @@
         ReactDOM.createRoot(document.getElementById('root'))
                 .render(
                     <Provider store={store}>
-                        <App/>
+                        <Count/>
                     </Provider>
                 );
         /* ------------------------------------------------------------------------------------ */
