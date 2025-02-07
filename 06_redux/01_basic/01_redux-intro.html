@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/redux@4.2.0/dist/redux.js"></script>
+</head>
+<body>
+    <!-- 25-02-07 (금) 1교시, 리덕스 기초 첫 시간 -->
+
+    <script>
+        /* 리덕스란, 파편화 되어있는 State를 관리하기 위한 라이브러리.
+            앱의 상태는 전부 하나의 store(저장소)안에 저장.
+            저장소에 있는 state를 변경하기 위한 유일한 방법은
+            어떤 식으로 state를 변경할지에 대한 action(행위)이다.
+            전달받은 action에 따라 state를 어떻게 변경할 지를
+            정의하는 함수를 reducer함수라고 한다.
+            
+            <3가지 원칙>
+            1. 스토어라는 하나뿐인 데이터 공간을 이용하기 때문에
+                신뢰할 수 있는 데이터이다.
+            2. State는 리덕스에서 액션을 전달하는 리듀서 함수를
+                통해서만 변경할 수 있으며 직접 변경은 못한다.
+            3. 변경은 오로지 순수 함수로만 가능하다. */
+
+            console.log('저장고 생성 전 Redux : ', Redux); // 내부에 key로 createStore 존재
+
+            const {createStore} = Redux;
+
+            // reducer 함수는 초기값 (state)와 행위(action)을 전달 받음.
+            function reducer(state = 0, action){
+                /* action은 스토어에 운반할 데이터를 말하며 주문서의 개념
+
+                action의 프로퍼티키 설정은 자유지만, type-payload로 통일하기(다들 이렇게 씀)
+                {
+                    type: 'ACTION_NAME',                // type은 필수로 전달
+                    payload : {name: '김규남', age: 20} // payload는 옵션
+                }
+                    */
+                return ();
+            }
+
+            // 저장소 만들기 (state와 action 관리하는 reducer 함수 전달)
+            // store가 제공하는 API는 (key 값으로)subscribe, dispatch, getState 등 있음
+            const store = createStore(reducer);
+            console.log('store : ' , store);
+
+            /* 스토어의 상태 변화를 구독 */
+            store.subscribe(() => {console.log('subscribe의 store.getState() : ',store.getState())});
+    </script>
+</body>
+</html>
