@@ -38,7 +38,11 @@
                     payload : {name: '김규남', age: 20} // payload는 옵션
                 }
                     */
-                return ();
+                switch(action.type){
+                    case 'INCREMENT' : return state +1;
+                    case 'DECREMENT' : return state -1;
+                    default :return state;
+                };
             }
 
             // 저장소 만들기 (state와 action 관리하는 reducer 함수 전달)
@@ -48,6 +52,11 @@
 
             /* 스토어의 상태 변화를 구독 */
             store.subscribe(() => {console.log('subscribe의 store.getState() : ',store.getState())});
+
+            store.dispatch({type: 'INCREMENT'}); // 1
+            store.dispatch({type: 'INCREMENT'}); // 2
+            store.dispatch({type: 'DECREMENT'}); // 1
+
     </script>
 </body>
 </html>
