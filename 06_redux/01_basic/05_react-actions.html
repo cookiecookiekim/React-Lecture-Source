@@ -9,66 +9,67 @@
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://unpkg.com/redux@4.2.0/dist/redux.js"></script>
     <script src="https://unpkg.com/react-redux@8.0.4/dist/react-redux.js"></script>
+    <script src="https://unpkg.com/redux-actions@2.6.5/dist/redux-actions.js"></script>
 </head>
 <body>
     <div id="root"></div>
     <script type="text/babel">
-
+        // 04_action을 좋은 코드로 만들기
         console.log('cdm 넣고 최초 Redux :' ,Redux);
         console.log('cdm 넣고 최초 ReactRedux :' ,ReactRedux);
+        console.log('cdm 넣고 최초 ReduxActions :' ,ReduxActions);
 
         const {createStore} = Redux;
         const {Provider , useSelector , useDispatch} = ReactRedux;
-        /*  Ducks 패턴에 의하면 초기값, 액션, 리듀서를 관련있는 State 별로
-            modules라는 패키지 하위에 관리한다.
-            ex) src/modules/MenuModules.js/ 초기값, 액션, 리듀서 */
+        const {createAction, createActions, handleActions} = ReduxActions;
 
         // CountModule.js 라고 가정 (프로젝트 구성 연습)
         /* ------------------------------------------------------------------------------------ */
         // 1. 초기값
         const initCount = 0;
 
-        // 2. 액션 : 액션은 함수 형태로 재사용할 수 있도록 작성하여 dispatch 호출 시
-        // 인자로 전달할 값을 반환하는 함수를 만들어 둔다.
+        // 2. 액션
+        // 액션은 주로 행위를 나타내기 때문에 동사형으로 작성하는 것이 일반적.
+        const INCREMENT = 'count/INCREASE';
+        const DECREMENT = 'count/DECREASE';
 
-        // 액션 타입을 상수로 정의해둔다. 
-        // 접두사를 붙이는 이유 : 다른 모듈과 액션값이 겹치지 않게 하기 위해.
-        const INCREMENT = 'count/INCREMENT';
-        const DECREMENT = 'count/DECREMENT';
+        /* 2-1. createAction 사용 */
+        // const increase = createAction(INCREMENT , (amount = 1) => ({incrementValue : amount}));
+        // const decrease = createAction(DECREMENT , (amount = 1) => ({decrementValue : amount}));
 
-        // 액션 함수 정의
-        const increase = () => (
-            {
-                type : INCREMENT,
-                payload : {incrementValue : 1}
+        // console.log('createAction에 담은 increase() :',increase());
+        // console.log('createAction에 담은 decrease() :',decrease());
+
+        /* 2-2. createActions를 사용하여 액션들 한 번에 다루기 */
+        const {count : {increase , decrease}} = createActions({ // 액션 객체 만들기
+            [INCREMENT] : (amount = 1) => ({incrementValue : amount}),
+            [DECREMENT] : (amount = 1) => ({decrementValue : amount})
+        });
+        console.log('createAction에 담은 increase() :',increase());
+        console.log('createAction에 담은 decrease() :',decrease());
+
+        // 3. handleActions를 사용해서 create한 action 핸들링
+        // 이번엔 switch문 사용하지 말고 키값과 일치하는 액션 호출하기
+        const reducer = handleActions({ // 첫번째 인자 : 핸들링할 함수 , 두번째 인자 : 초기값
+            [INCREMENT] : (state, {payload : {incrementValue}}) => {
+                return state + incrementValue;
+            },
+            [DECREMENT] : (state, {payload : {decrementValue}}) => {
+                return state - decrementValue;
             }
-        );
-        const decrease = () => (
-            {
-                type : DECREMENT,
-                payload : {decrementValue : 1}
-            }
-        );
-
-        // 3. [1,2] state, action 정의 완료. 이제 reducer 정의할 차례
-        function reducer (state = initCount , {type , payload}) {
-            switch(type) {
-                case INCREMENT : return state + payload.incrementValue;
-                case DECREMENT : return state - payload.decrementValue;
-                default : return state;
-            }
-        }
-
+        }, initCount);
         /* ------------------------------------------------------------------------------------ */
 
         // src/pages/Count.js 라고 가정
         /* ------------------------------------------------------------------------------------ */
         function Count(){
 
+            const count = useSelector(state => state);
+            // console.log('count : ', count()); 이거 있으면 에러남...
+            
             const dispatch = useDispatch();
             console.log('dispatch',useDispatch());
 
-            // 이번엔 dispatch로 함수를 호출하는 방식
             const increaseCount = () => {
                 dispatch(increase()); // increase() 부터 우선 동작하고 가져옴. 순서 자세히 보기
             }
@@ -78,7 +79,7 @@
 
             return(
                 <>
-                    <h1>Count : </h1>
+                    <h1>Count : {count}</h1>
                     <button onClick={increaseCount}>+ 1</button>
                     <button onclick={decreaseCount}>- 1</button>
                 </>
@@ -100,7 +101,7 @@
         ReactDOM.createRoot(document.getElementById('root'))
                 .render(
                     <Provider store={store}>
-                        <App/>
+                        <Count/>
                     </Provider>
                 );
         /* ------------------------------------------------------------------------------------ */
