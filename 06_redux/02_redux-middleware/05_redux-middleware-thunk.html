@@ -50,6 +50,7 @@
             console.log('thunkMiddleware 내부의 getState :' , getState);
 
             if(typeof action === 'function'){
+                console.log('typeof action === function : ')
                 return action(dispatch, getState);
             }
             // 함수가 아닌 경우에는 원래의 흐름대로 다음 미들웨어 or 리듀서 호출
@@ -90,6 +91,7 @@
                 dispatch(getUsers);
             }
 
+            console.log('마운트 시점')
             return(
                 <>
                     <h1>회원 목록</h1>

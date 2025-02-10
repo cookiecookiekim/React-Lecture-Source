@@ -40,6 +40,8 @@
         const loggingMiddleware = store => next => action => {
             // 미들웨어가 동작 시 액션 정보를 알고 있는지 출력하는
             // 로그 기능 미들웨어 생성
+            console.log('미들웨어 내부 store : ', store);
+            console.log('미들웨어 내부 next : ', next);
             console.log('미들웨어 내부 action : ', action);
 
             // 원래의 흐름으로 (reducer 호출) 돌아가기

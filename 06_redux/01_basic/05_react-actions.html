@@ -52,6 +52,8 @@
         // 이번엔 switch문 사용하지 말고 키값과 일치하는 액션 호출하기
         const reducer = handleActions({ // 첫번째 인자 : 핸들링할 함수 , 두번째 인자 : 초기값
             [INCREMENT] : (state, {payload : {incrementValue}}) => {
+                console.log('INCREMENT : ', INCREMENT);
+                console.log('state : ', state);
                 return state + incrementValue;
             },
             [DECREMENT] : (state, {payload : {decrementValue}}) => {
